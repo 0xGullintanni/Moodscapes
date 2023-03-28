@@ -7,10 +7,11 @@ import { ERC721 } from './ERC721.sol';
 import { Ownable } from './Ownable.sol';
 
 contract Event is ERC721, Ownable {
-    uint16 public attendanceCount;
+    uint256 public attendanceCount;
     uint256 public eventDateTimestamp;
     address public host;
     string public hostName;
+    
     Attendee[] public attendance;
 
     struct Attendee {
