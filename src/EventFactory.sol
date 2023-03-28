@@ -8,6 +8,7 @@ import { Ownable } from './Ownable.sol';
 
 contract EventFactory is Ownable {
     address[] public events;
+    mapping (address => Event) addressToEvent;
 
     constructor() {}
 
@@ -17,6 +18,7 @@ contract EventFactory is Ownable {
 
         Event _event = new Event(_host, _hostName, eventDateTimestamp, memoryCardName, memoryCardSymbol);
         events.push(address(_event));
+        addressToEvent[address(_event)] = _event;
 
         return address(_event);
     }
