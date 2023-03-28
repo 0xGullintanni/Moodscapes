@@ -4,10 +4,9 @@
 pragma solidity ^0.8.13;
 
 import { ERC721 } from './ERC721.sol';
-import { ERC721Enumerable } from './ERC721Enumerable.sol';
 import { Ownable } from './Ownable.sol';
 
-contract Event is ERC721Enumerable, Ownable {
+contract Event is ERC721, Ownable {
     uint16 public attendanceCount;
     uint256 public eventDateTimestamp;
     address public host;
