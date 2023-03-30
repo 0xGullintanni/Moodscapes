@@ -25,7 +25,7 @@ contract EventTest is Test {
         assertEq(Event(_event).hostName(), bobMinerTag);
         assertEq(Event(_event).eventDateTimestamp(), block.timestamp + 1000000000000);
         assertEq(Event(_event).owner(), address(factory));
-        assertEq(Event(_event).totalSupply(), 0);
+        assertEq(Event(_event).attendanceCount(), 0);
         assertEq(factory.owner(), address(this));
     }
 
@@ -34,11 +34,9 @@ contract EventTest is Test {
         assertEq(Event(_event).hostName(), bobMinerTag);
         assertEq(Event(_event).eventDateTimestamp(), block.timestamp + 1000000000000);
         assertEq(Event(_event).owner(), address(factory));
-        assertEq(Event(_event).totalSupply(), 0);
         assertEq(factory.owner(), address(this));
 
         Event(_event).attend(bobMinerTag);
-        assertEq(Event(_event).totalSupply(), 1);
         assertEq(Event(_event).attendanceCount(), 1);
     }
 }
