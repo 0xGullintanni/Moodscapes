@@ -13,6 +13,7 @@ contract Event is ERC721URIStorage, Ownable {
     uint256 public eventDateTimestamp;
     address public host;
     string public hostName;
+    string public baseURI;
     
     Attendee[] public attendance;
     mapping(address => bool) hasClaimed;
@@ -22,10 +23,11 @@ contract Event is ERC721URIStorage, Ownable {
         string attendeeMinerTag;
     }
 
-    constructor(address _host, string memory _hostName, uint _eventDateTimestamp, string memory eventName, string memory eventSymbol) ERC721(eventName, eventSymbol) {
+    constructor(string memory baseUri, address _host, string memory _hostName, uint _eventDateTimestamp, string memory eventName, string memory eventSymbol) ERC721(eventName, eventSymbol) {
         host = _host;
         hostName = _hostName;
         eventDateTimestamp = _eventDateTimestamp;
+        baseURI = baseUri;
     }
 
     function attend(string memory _attendeeMinerTag) public {
@@ -38,17 +40,12 @@ contract Event is ERC721URIStorage, Ownable {
         hasClaimed[msg.sender] = true;
 
         _mint(msg.sender, attendanceCount);
-        _setTokenURI(attendanceCount, _baseURI());
-    }
-
-    function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs/QmQZaEW3xHoh6hfG8oduZFz3gdb6AZHYRdWeBfAnZf8PXa/";
+        _setTokenURI(attendanceCount, baseURI);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         _requireMinted(tokenId);
 
-        string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI)) : "";
+        return baseURI;
     }
 }

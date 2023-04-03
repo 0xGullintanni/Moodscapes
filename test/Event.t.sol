@@ -9,14 +9,18 @@ import { EventFactory } from "../src/EventFactory.sol";
 contract EventTest is Test {
     address internal _event;
     EventFactory internal factory;
+    
     address internal bob = address(0x1);
     string internal bobMinerTag = "Bob";
+
+    address internal alice = address(0x2);
+    string internal aliceMinerTag = "Alice";
 
     function setUp() public {
         vm.deal(bob, 100 ether);
     
         factory = new EventFactory();
-        _event = factory.createEvent(bob, bobMinerTag, block.timestamp + 1000000000000, "Bob's Event", "BOBSEVENT");
+        _event = factory.createEvent("https://ipfs.io/ipfs/QmQZaEW3xHoh6hfG8oduZFz3gdb6AZHYRdWeBfAnZf8PXa/", bob, bobMinerTag, block.timestamp + 1000000000000, "Bob's Event", "BOBSEVENT");
     }
 
     function testSetUp() public {
@@ -36,11 +40,13 @@ contract EventTest is Test {
         assertEq(Event(_event).owner(), address(factory));
         assertEq(factory.owner(), address(this));
 
+        vm.prank(bob);
         Event(_event).attend(bobMinerTag);
         assertEq(Event(_event).attendanceCount(), 1);
         assertEq(Event(_event).tokenURI(1), "https://ipfs.io/ipfs/QmQZaEW3xHoh6hfG8oduZFz3gdb6AZHYRdWeBfAnZf8PXa/");
 
-        Event(_event).attend(bobMinerTag);
+        vm.prank(alice);
+        Event(_event).attend(aliceMinerTag);
         assertEq(Event(_event).attendanceCount(), 2);
         assertEq(Event(_event).tokenURI(2), "https://ipfs.io/ipfs/QmQZaEW3xHoh6hfG8oduZFz3gdb6AZHYRdWeBfAnZf8PXa/");
     }

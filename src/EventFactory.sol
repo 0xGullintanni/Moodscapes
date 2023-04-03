@@ -12,11 +12,11 @@ contract EventFactory is Ownable {
 
     constructor() {}
 
-    function createEvent(address _host, string calldata _hostName, uint eventDateTimestamp, string memory memoryCardName, string memory memoryCardSymbol) public returns(address) {
+    function createEvent(string memory baseUri, address _host, string calldata _hostName, uint eventDateTimestamp, string memory memoryCardName, string memory memoryCardSymbol) public returns(address) {
         require(_host != address(0), "Token address cannot be 0x0");
         require(eventDateTimestamp >= block.timestamp, "You cannot create an event in the past");
 
-        Event _event = new Event(_host, _hostName, eventDateTimestamp, memoryCardName, memoryCardSymbol);
+        Event _event = new Event(baseUri, _host, _hostName, eventDateTimestamp, memoryCardName, memoryCardSymbol);
         events.push(address(_event));
         addressToEvent[address(_event)] = _event;
 
