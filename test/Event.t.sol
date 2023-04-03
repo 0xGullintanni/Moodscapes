@@ -39,5 +39,9 @@ contract EventTest is Test {
         Event(_event).attend(bobMinerTag);
         assertEq(Event(_event).attendanceCount(), 1);
         assertEq(Event(_event).tokenURI(1), "https://ipfs.io/ipfs/QmQZaEW3xHoh6hfG8oduZFz3gdb6AZHYRdWeBfAnZf8PXa/");
+
+        Event(_event).attend(bobMinerTag);
+        assertEq(Event(_event).attendanceCount(), 2);
+        assertEq(Event(_event).tokenURI(2), "https://ipfs.io/ipfs/QmQZaEW3xHoh6hfG8oduZFz3gdb6AZHYRdWeBfAnZf8PXa/");
     }
 }

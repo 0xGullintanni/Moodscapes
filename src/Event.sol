@@ -15,6 +15,7 @@ contract Event is ERC721URIStorage, Ownable {
     string public hostName;
     
     Attendee[] public attendance;
+    mapping(address => bool) hasClaimed;
 
     struct Attendee {
         address attendeeAddress;
@@ -29,8 +30,12 @@ contract Event is ERC721URIStorage, Ownable {
 
     function attend(string memory _attendeeMinerTag) public {
         require(block.timestamp <= eventDateTimestamp, "You cannot attend an event that has already happened");
+        require(!hasClaimed[msg.sender], "You have already RSVP'd");
+        
         attendance.push(Attendee(msg.sender, _attendeeMinerTag));
         attendanceCount++;
+
+        hasClaimed[msg.sender] = true;
 
         _mint(msg.sender, attendanceCount);
         _setTokenURI(attendanceCount, _baseURI());
